@@ -1,18 +1,29 @@
 name: Rodar script Python diário
 
+# Gatilhos
 on:
   schedule:
-    - cron: '10 10 * * *'  # todo dia às 10:10 UTC
+    - cron: '13 10 * * *'  # 10:10 BRT (UTC-3)
   workflow_dispatch:       # permite rodar manualmente
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
     steps:
+      # Passo 1: Pegar os arquivos do repositório
       - uses: actions/checkout@v3
+
+      # Passo 2: Configurar Python 3.11
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
+      # Passo 3: Instalar dependências
+      - name: Instalar dependências
+        run: pip install requests
+
+      # Passo 4: Executar o script
       - name: Executar script
         run: python acompanhamento_lme2.py
